@@ -80,18 +80,24 @@ async function updateWatchlistDisplay() {
         const watchlistCard = document.createElement('div');
         watchlistCard.classList.add('movie-card');
 
+        // Add a button row with Details on the left, Remove on the right
         watchlistCard.innerHTML = `
           <img src="${movie.Poster}" alt="${movie.Title}" class="movie-poster">
           <div class="movie-info">
             <h3 class="movie-title">${movie.Title}</h3>
             <p class="movie-year">${movie.Year}</p>
-            <button class="btn btn-details">Details</button>
-            <button class="btn btn-remove" onclick='removeFromWatchlist("${movie.imdbID}")'>Remove</button>
+            <div class="button-row">
+              <button class="btn btn-details">Details</button>
+              <button class="btn btn-remove">Remove</button>
+            </div>
           </div>
         `;
 
         // Add event listener to the 'Details' button
         watchlistCard.querySelector('.btn-details').addEventListener('click', handleDetailsButtonClick(movie.imdbID));
+
+        // Add event listener to the 'Remove' button
+        watchlistCard.querySelector('.btn-remove').addEventListener('click', () => removeFromWatchlist(movie.imdbID));
 
         watchlistContainer.appendChild(watchlistCard);
       } catch (error) {
@@ -128,6 +134,7 @@ async function openModal(movieID) {
 
     const movie = await response.json();
 
+    // Show all required details in the modal
     modalContent.innerHTML = `
       <img src="${movie.Poster}" alt="${movie.Title}" class="movie-poster">
       <h2>${movie.Title} (${movie.Year})</h2>
@@ -171,13 +178,16 @@ function displayMovies(movies) {
     const movieCard = document.createElement('div');
     movieCard.classList.add('movie-card');
 
+    // Add a button row with Details on the left, Add to Watchlist on the right
     movieCard.innerHTML = `
       <img src="${movie.Poster}" alt="${movie.Title}" class="movie-poster">
       <div class="movie-info">
         <h3 class="movie-title">${movie.Title}</h3>
         <p class="movie-year">${movie.Year}</p>
-        <button class="btn btn-details">Details</button>
-        <button class="btn btn-add">Add to Watchlist</button>
+        <div class="button-row">
+          <button class="btn btn-details">Details</button>
+          <button class="btn btn-add">Add to Watchlist</button>
+        </div>
       </div>
     `;
 
